@@ -1,0 +1,50 @@
+# version: "3"
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor
+    volumes:
+      - "/:/rootfs/:ro"
+      - "/var/run:/var/run/:ro"
+      - "/sys:/sys/:ro"
+      - "/var/lib/docker/:/var/lib/docker/:ro"
+      - "/dev/disk/:/dev/disk/:ro"
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    privileged: true
+  node-exporter:
+    container_name: node-exporter
+    image: quay.io/prometheus/node-exporter:latest
+    command:
+      - "--path.rootfs=/host"
+    volumes:
+      - "/:/host:ro"
+    expose:
+      - "9100"
+    ports:
+      - "9100:9100"
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    expose:
+      - "9090"
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    privileged: true
+    depends_on:
+      - cadvisor
+    command:
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+
+volumes:
+  grafana-data:
