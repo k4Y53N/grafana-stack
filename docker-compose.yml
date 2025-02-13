@@ -10,8 +10,6 @@ services:
       - "/dev/disk/:/dev/disk/:ro"
     expose:
       - "8080"
-    ports:
-      - "8080:8080"
     privileged: true
   node-exporter:
     container_name: node-exporter
@@ -22,8 +20,6 @@ services:
       - "/:/host:ro"
     expose:
       - "9100"
-    ports:
-      - "9100:9100"
   dcgm-exporter:
     container_name: dcgm-exporter
     image: nvcr.io/nvidia/k8s/dcgm-exporter:4.1.0-4.0.2-ubuntu22.04
@@ -31,8 +27,6 @@ services:
       - SYS_ADMIN
     expose:
       - "9400"
-    ports:
-      - "9400:9400"
     deploy:
       resources:
         reservations:
@@ -42,8 +36,6 @@ services:
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
     expose:
       - "9090"
     volumes:
