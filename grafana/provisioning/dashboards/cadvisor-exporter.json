@@ -640,7 +640,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -766,7 +767,7 @@
       "type": "table"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 40,
   "tags": [
     "cadvisor",
@@ -836,6 +837,6 @@
   "timezone": "",
   "title": "Cadvisor Exporter",
   "uid": "pMEd7m0Mz",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
