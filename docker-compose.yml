@@ -1,6 +1,6 @@
-# version: "3"
 services:
   cadvisor:
+    container_name: cadvisor
     image: gcr.io/cadvisor/cadvisor
     volumes:
       - "/:/rootfs/:ro"
@@ -24,6 +24,21 @@ services:
       - "9100"
     ports:
       - "9100:9100"
+  dcgm-exporter:
+    container_name: dcgm-exporter
+    image: nvcr.io/nvidia/k8s/dcgm-exporter:4.1.0-4.0.2-ubuntu22.04
+    cap_add:
+      - SYS_ADMIN
+    expose:
+      - "9400"
+    ports:
+      - "9400:9400"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
@@ -34,9 +49,6 @@ services:
     volumes:
       - ./prometheus/:/etc/prometheus/
     privileged: true
-    depends_on:
-      - cadvisor
-    command:
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
