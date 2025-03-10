@@ -13,6 +13,7 @@ services:
     expose:
       - "8080"
     privileged: true
+    restart: unless-stopped
   node-exporter:
     container_name: node-exporter
     image: quay.io/prometheus/node-exporter:latest
@@ -24,6 +25,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
     expose:
       - "9100"
+    restart: unless-stopped
   dcgm-exporter:
     container_name: dcgm-exporter
     image: nvcr.io/nvidia/k8s/dcgm-exporter:4.1.0-4.0.2-ubuntu22.04
@@ -34,6 +36,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+    restart: unless-stopped
     deploy:
       resources:
         reservations:
@@ -51,6 +54,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     privileged: true
+    restart: unless-stopped
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
@@ -61,3 +65,4 @@ services:
       - ./grafana-data:/var/lib/grafana:rw
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+    restart: unless-stopped
