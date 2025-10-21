@@ -65,4 +65,12 @@ services:
       - ./grafana-data:/var/lib/grafana:rw
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/admin_password
     restart: unless-stopped
+    secrets:
+      - admin_password
+
+secrets:
+  admin_password:
+    file: secrets/admin_password
