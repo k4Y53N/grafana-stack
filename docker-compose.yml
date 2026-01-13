@@ -61,6 +61,7 @@ services:
     ports:
       - 3000:3000
     volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:rw
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
       - ./grafana-data:/var/lib/grafana:rw
       - /etc/localtime:/etc/localtime:ro
