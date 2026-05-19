@@ -1,5 +1,15 @@
+x-general: &general
+  init: true
+  logging:
+    options:
+      max-size: 256m
+      max-file: 4
+  networks:
+    - default
+
 services:
   cadvisor:
+    <<: *general
     container_name: cadvisor
     image: ghcr.io/google/cadvisor:0.54.1
     volumes:
@@ -14,7 +24,9 @@ services:
       - "8080"
     privileged: true
     restart: unless-stopped
+
   node-exporter:
+    <<: *general
     container_name: node-exporter
     image: quay.io/prometheus/node-exporter:latest
     command:
@@ -26,6 +38,7 @@ services:
     expose:
       - "9100"
     restart: unless-stopped
+
   dcgm-exporter:
     container_name: dcgm-exporter
     image: nvidia/dcgm-exporter:4.4.2-4.7.0-distroless
@@ -43,6 +56,7 @@ services:
           devices:
             - driver: nvidia
               capabilities: [gpu]
+
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
@@ -55,6 +69,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
     privileged: true
     restart: unless-stopped
+
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
