@@ -14,6 +14,8 @@ services:
     image: ghcr.io/google/cadvisor:0.54.1
     hostname: cadvisor
     container_name: cadvisor
+    expose:
+      - "8080"
     volumes:
       - /:/rootfs/:ro
       - /var/run:/var/run/:ro
@@ -22,8 +24,6 @@ services:
       - /dev/disk/:/dev/disk/:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-    expose:
-      - "8080"
     privileged: true
 
   node-exporter:
@@ -33,12 +33,12 @@ services:
     container_name: node-exporter
     command:
       - "--path.rootfs=/host"
+    expose:
+      - "9100"
     volumes:
       - /:/host:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-    expose:
-      - "9100"
 
   dcgm-exporter:
     image: nvidia/dcgm-exporter:4.4.2-4.7.0-distroless
