@@ -115,4 +115,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: prometheus-data
+      device: ./prometheus-data
