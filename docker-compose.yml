@@ -71,6 +71,7 @@ services:
     restart: unless-stopped
 
   grafana:
+    hostname: grafana
     container_name: grafana
     image: grafana/grafana:latest
     ports:
@@ -86,7 +87,16 @@ services:
     restart: unless-stopped
     secrets:
       - admin_password
+    networks:
+      - default
+      - grafana.net
 
 secrets:
   admin_password:
     file: secrets/admin_password
+
+networks:
+  default:
+  grafana.net:
+    name: grafana.net
+    driver: bridge
