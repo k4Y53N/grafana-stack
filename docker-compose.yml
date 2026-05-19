@@ -11,8 +11,9 @@ x-general: &general
 services:
   cadvisor:
     <<: *general
-    container_name: cadvisor
     image: ghcr.io/google/cadvisor:0.54.1
+    hostname: cadvisor
+    container_name: cadvisor
     volumes:
       - /:/rootfs/:ro
       - /var/run:/var/run/:ro
@@ -27,8 +28,9 @@ services:
 
   node-exporter:
     <<: *general
-    container_name: node-exporter
     image: quay.io/prometheus/node-exporter:latest
+    hostname: node-exporter
+    container_name: node-exporter
     command:
       - "--path.rootfs=/host"
     volumes:
@@ -39,8 +41,9 @@ services:
       - "9100"
 
   dcgm-exporter:
-    container_name: dcgm-exporter
     image: nvidia/dcgm-exporter:4.4.2-4.7.0-distroless
+    hostname: dcgm-exporter
+    container_name: dcgm-exporter
     cap_add:
       - SYS_ADMIN
     expose:
@@ -56,8 +59,9 @@ services:
               capabilities: [gpu]
 
   prometheus:
-    container_name: prometheus
     image: prom/prometheus:latest
+    hostname: prometheus
+    container_name: prometheus
     expose:
       - "9090"
     volumes:
@@ -68,9 +72,9 @@ services:
     privileged: true
 
   grafana:
+    image: grafana/grafana:latest
     hostname: grafana
     container_name: grafana
-    image: grafana/grafana:latest
     expose:
       - 3000
     ports:
