@@ -4,6 +4,7 @@ x-general: &general
     options:
       max-size: 256m
       max-file: 4
+  restart: unless-stopped
   networks:
     - default
 
@@ -23,7 +24,6 @@ services:
     expose:
       - "8080"
     privileged: true
-    restart: unless-stopped
 
   node-exporter:
     <<: *general
@@ -37,7 +37,6 @@ services:
       - /etc/timezone:/etc/timezone:ro
     expose:
       - "9100"
-    restart: unless-stopped
 
   dcgm-exporter:
     container_name: dcgm-exporter
@@ -49,7 +48,6 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-    restart: unless-stopped
     deploy:
       resources:
         reservations:
@@ -68,7 +66,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     privileged: true
-    restart: unless-stopped
 
   grafana:
     hostname: grafana
@@ -86,7 +83,6 @@ services:
       - /etc/timezone:/etc/timezone:ro
     environment:
       - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/admin_password
-    restart: unless-stopped
     secrets:
       - admin_password
     networks:
