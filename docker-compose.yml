@@ -69,6 +69,12 @@ services:
       - prometheus-data:/prometheus:rw
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+    command:
+      [
+        "--config.file=/etc/prometheus/prometheus.yml",
+        "--storage.tsdb.path=/prometheus",
+        "--storage.tsdb.retention.time=90d",
+      ]
     privileged: true
 
   grafana:
